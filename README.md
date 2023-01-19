@@ -16,7 +16,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 1. Clone the repository to your local machine:
 
-https://github.com/rjpatil885/SportsTrader.git
+https://github.com/rjpatil885/SportsTrader_API.git
 
 2. Navigate to the project directory:
 
