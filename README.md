@@ -9,6 +9,7 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 - Python 3.x
+- Django 3.x
 - A database (e.g. PostgreSQL, MySQL, SqlLIte)
 
 ### Installing
@@ -21,16 +22,12 @@ https://github.com/rjpatil885/SportsTrader.git
 
 cd SportsTrader/sportstrader
 
-3. Install the required packages:
-
-pip install -r requirements.txt
-
-4. Apply the migrations:
+3. Apply the migrations:
 
 python manage.py makemigrations
 python manage.py migrate
 
-5. Run the following command to start the development server:
+4. Run the following command to start the development server:
 
 python manage.py runserver
 
