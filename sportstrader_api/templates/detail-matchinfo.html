@@ -1,0 +1,830 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td,
+        th {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .home-team {
+            background-color: rgb(2, 127, 2,0.5);
+            color: white;
+            font-weight: bold;
+        }
+
+        .away-team {
+            background-color: rgb(224, 58, 58,0.5);
+            color: white;
+            font-weight: bold;
+        }
+
+        .result {
+            background-color: rgb(222, 152, 24, 0.5);
+            color: white;
+            font-weight: bold;
+        }
+
+        .match-date {
+
+            color: white;
+            font-weight: bold;
+        }
+
+        .half-time-score {
+
+            color: white;
+            font-weight: bold;
+        }
+
+        .stadium-name {
+
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+
+    <style>
+
+        .text-center {
+            text-align: center;
+        }
+
+        h1,
+        h3 {
+            font-weight: bold;
+        }
+
+        .card {
+            background-color: #fff;
+            box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            background-color: #f5f5f5;
+            padding: 10px;
+            font-size: 1.5em;
+        }
+
+        .card-body {
+            padding: 10px;
+        }
+
+        .attendance,
+        .away-team-name,
+        .home-team-name,
+        .match-date,
+        .match-result,
+        .stadium-name,
+        .timeline-content {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .away-team-score,
+        .home-team-score {
+            font-weight: bold;
+            color: #2E7D32;
+            font-size: 1.2em;
+        }
+
+        .away-team-logo,
+        .home-team-logo {
+            max-width: 100px;
+        }
+
+        .timeline {
+            list-style: none;
+            padding: 0;
+        }
+
+        .timeline-item {
+            margin-bottom: 20px;
+        }
+
+        .timeline-date {
+            font-size: 1.2em;
+            color: #999;
+        }
+
+        .match-result {
+            font-weight: bold;
+            font-size: 1.5em;
+            color: #2E7D32;
+            /* Green color */
+        }
+
+        /* Change color of match result text depending on outcome */
+        .match-result.win {
+            color: #2E7D32;
+            /* Green color */
+        }
+
+        .match-result.loss {
+            color: #C62828;
+            /* Red color */
+        }
+
+        .match-result.draw {
+            color: #FF5722;
+            /* Orange color */
+        }
+
+        /* Match Statistics */
+        .match-stats {
+            margin-top: 40px;
+        }
+        .match-stats h3 {
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .match-stats table {
+            width: 100%;
+        }
+        .match-stats td {
+            text-align: center;
+        }
+
+        /* Player Statistics */
+        .player-stats {
+            margin-top: 40px;
+        }
+        .player-stats h3 {
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .player-stats table {
+            width: 100%;
+        }
+        .player-stats td {
+            text-align: center;
+        }
+        /* Players Name */
+        .player-stats td:nth-child(1) {
+            font-weight: bold;
+            text-align: left;
+        }
+        /* Players Team */
+        .player-stats td:nth-child(2) {
+            font-style: italic;
+        }
+        /* Players Goals */
+        .player-stats td:nth-child(3) {
+            color: green;
+        }
+        /* Players Assists */
+        .player-stats td:nth-child(4) {
+            color: blue;
+        }
+        /* Players Yellow Cards */
+        .player-stats td:nth-child(5) {
+            color: yellow;
+        }
+        /* Players Red Cards */
+        .player-stats td:nth-child(6) {
+            color: red;
+        }
+    </style>
+
+    <div class="container">
+        <h1 class="text-center my-5">Match Information</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Home Team</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Team Name:
+                            <span class="home-team-name">{{data.home_team}}</span></p>
+                        <p>Team Score:
+                            <span class="home-team-score">{{data.home_score}}</span></p>
+                        <!-- <p>Team Logo: <img class="home-team-logo" src="manchester-united-logo.png"
+                        alt="Manchester United Logo"></p> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Away Team</h3>
+                    </div>
+                    <div class="card-body">
+                        <p>Team Name:
+                            <span class="away-team-name">{{data.away_team}}</span></p>
+                        <p>Team Score:
+                            <span class="away-team-score">{{data.away_score}}</span></p>
+                        <!-- <p>Team Logo: <img class="away-team-logo" src="liverpool-logo.png"
+                        alt="Liverpool Logo"></p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Match Result</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if data.home_score > data.away_score %}
+                            <p>Result:
+                                <span class="match-result">{{data.home_team}}
+                                    win
+                                    <i class="fas fa-trophy"></i>
+                                </span>
+                            </p>
+                        {% elif data.home_score < data.away_score %}
+                            <p>Result:
+                                <span class="match-result">{{data.away_team}}
+                                    win
+                                    <i class="fas fa-trophy"></i>
+                                </span>
+                            </p>
+                        {% else %}
+                            <p>Result:
+                                <span class="match-result">
+                                    Draw
+                                    <i class="fas fa-draw"></i>
+                                </span>
+                            </p>
+                        {% endif %}
+                        <p>Match Date:
+                            <span class="match-date">{{data.match_date}}</span></p>
+                        <p>Stadium:
+                            <span class="stadium-name">{{data.stadium}}</span></p>
+                        <p>Attendance:
+                            <span class="attendance">75,000</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Timeline</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul class="timeline">
+
+                            {% for i in timeline %}
+                                {% if i.type == 'shot_on_target' %}
+                                    <li class="timeline-item">
+
+                                        <div class="timeline-date d-flex alert alert-success" ">
+
+                                          {{i.time}}
+                                          |
+                                          {{i.type}}
+                                           
+                                          by
+                                          {{ i.players.0.name }}
+                                          |
+                                          {{ i.players.0.type }}
+                                          <img src="/static/goal.png" alt="goal" width="40" class="mx-3">
+                                        </div>
+                                      
+                                    {% endif %}
+                                   
+                                    {% if i.type == 'shot_off_target' %}
+                                        <li class="timeline-item">
+
+                                            <div class="timeline-date d-flex alert alert-warning">
+
+                                              {{i.time}}
+                                              |
+                                              {{i.type}}
+                                               
+                                              by
+                                              {{ i.players.0.name }}
+                                              |
+                                              {{ i.players.0.type }}
+                                              <img src="/static/cross.png" alt="goal" width="40" class="mx-3">
+                                            </div>
+
+                                        {% endif %}
+
+                                    </li>
+
+                                {% endfor %}
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="container py-1">
+            <div id="accordion">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h5 class="mb-0">
+                            <h3
+                                class=""
+                                data-toggle="collapse"
+                                data-target="#collapseOne"
+                                aria-expanded="false"
+                                aria-controls="collapseOne">
+                                Match Statistics
+                            </h3>
+                        </h5>
+                    </div>
+
+                    <div
+                        id="collapseOne"
+                        class="show"
+                        aria-labelledby="headingOne"
+                        data-parent="#accordion">
+                        <div class="card-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="match-stats">
+                                            <p>Match Statistics</p>
+                                            <canvas id="match-stats-graph"></canvas>
+
+                                            <table class="table table-striped mt-3">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Statistic</th>
+                                                        <th>Home Team</th>
+                                                        <th>Away Team</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Possession</td>
+                                                        <td id="home-possession">{{data.home_statistics.ball_possession}}%</td>
+                                                        <td id="away-possession">{{data.away_statistics.ball_possession}}%</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Shots on Target</td>
+                                                        <td id="home-shots-on-target">{{data.home_statistics.shots_on_target}}</td>
+                                                        <td id="away-shots-on-target">{{data.away_statistics.shots_on_target}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Shots off Target</td>
+                                                        <td id="home-shots-off-target">{{data.home_statistics.shots_off_target}}</td>
+                                                        <td id="away-shots-off-target">{{data.away_statistics.shots_off_target}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Shots blocked</td>
+                                                        <td id="home-shots-blocked">{{data.home_statistics.shots_blocked}}</td>
+                                                        <td id="away-shots-blocked">{{data.away_statistics.shots_blocked}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Total Shots</td>
+                                                        <td id="home-shots-total">{{data.home_statistics.shots_total}}</td>
+                                                        <td id="away-shots-total">{{data.away_statistics.shots_total}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Fouls</td>
+                                                        <td id="home-fouls">{{data.home_statistics.fouls}}</td>
+                                                        <td id="away-fouls">{{data.away_statistics.fouls}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Free Kicks</td>
+                                                        <td id="home-free-kicks">{{data.home_statistics.free_kicks}}</td>
+                                                        <td id="away-free-kicks">{{data.away_statistics.free_kicks}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Goal Kicks</td>
+                                                        <td id="home-goal-kicks">{{data.home_statistics.goal_kicks}}</td>
+                                                        <td id="away-goal-kicks">{{data.away_statistics.goal_kicks}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Injuries</td>
+                                                        <td id="home-injuries">{{data.home_statistics.injuries}}</td>
+                                                        <td id="away-injuries">{{data.away_statistics.injuries}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Offsides</td>
+                                                        <td id="home-offsides">{{data.home_statistics.offsides}}</td>
+                                                        <td id="away-offsides">{{data.away_statistics.offsides}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Red Cards</td>
+                                                        <td id="home-red-cards">{{data.home_statistics.red_cards}}</td>
+                                                        <td id="away-red-cards">{{data.away_statistics.red_cards}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Shots Blocked</td>
+                                                        <td id="home-shots-blocked">{{data.home_statistics.shots_blocked}}</td>
+                                                        <td id="away-shots-blocked">{{data.away_statistics.shots_blocked}}</td>
+                                                    </tr>
+
+                                                    <td>Substitutions</td>
+                                                    <td id="home-substitutions">{{data.home_statistics.substitutions}}</td>
+                                                    <td id="away-substitutions">{{data.away_statistics.substitutions}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Throw-ins</td>
+                                                    <td id="home-throw-ins">{{data.home_statistics.throw_ins}}</td>
+                                                    <td id="away-throw-ins">{{data.away_statistics.throw_ins}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Yellow Cards</td>
+                                                    <td id="home-yellow-cards">{{data.home_statistics.yellow_cards}}</td>
+                                                    <td id="away-yellow-cards">{{data.away_statistics.yellow_cards}}</td>
+                                                </tr>
+
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card py-1">
+                <div class="card-header" id="headingTwo">
+                    <h5 class="mb-0">
+                        <h3
+                            class=""
+                            data-toggle="collapse"
+                            data-target="#collapseTwo"
+                            aria-expanded="false"
+                            aria-controls="collapseTwo">
+                            Home Players Statistics
+                        </h3>
+                    </h5>
+                </div>
+                <div id="collapseTwo" aria-labelledby="headingTwo" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="container ">
+                            <div class="row py-3">
+                                <div class="col-md-12">
+                                    <div class="players-stats">
+
+                                        <table class="table table-striped table-responsive-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Player Name</th>
+                                                    <th>Assists</th>
+                                                    <th>Goals Scored</th>
+
+                                                    <th>Red Cards</th>
+                                                    <th>Shots On Target</th>
+                                                    <th>Yellow Cards</th>
+                                                    <th>Yellow Red Cards</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for player in data.home_players %}
+                                                    <tr>
+                                                        <td>{{ player.name }}</td>
+                                                        <td>{{ player.statistics.assists }}</td>
+                                                        <td>{{ player.statistics.goals_scored }}</td>
+                                                        <td>{{ player.statistics.red_cards }}</td>
+                                                        <td>{{ player.statistics.shots_on_target }}</td>
+                                                        <td>{{ player.statistics.yellow_cards }}</td>
+                                                        <td>{{ player.statistics.yellow_red_cards }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card py-1">
+                <div class="card-header" id="headingThree">
+                    <h5 class="mb-0">
+                        <h3
+                            class=""
+                            data-toggle="collapse"
+                            data-target="#collapseThree"
+                            aria-expanded="false"
+                            aria-controls="collapseThree">
+                            Away Players Statistics
+                        </h3>
+                    </h5>
+                </div>
+                <div id="collapseThree" aria-labelledby="headingThree" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="container ">
+                            <div class="row py-3">
+                                <div class="col-md-12">
+                                    <div class="players-stats">
+
+                                        <table class="table table-striped table-responsive-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Player Name</th>
+                                                    <th>Assists</th>
+                                                    <th>Goals Scored</th>
+
+                                                    <th>Red Cards</th>
+                                                    <th>Shots On Target</th>
+                                                    <th>Yellow Cards</th>
+                                                    <th>Yellow Red Cards</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for player in data.away_players %}
+                                                    <tr>
+                                                        <td>{{ player.name }}</td>
+                                                        <td>{{ player.statistics.assists }}</td>
+                                                        <td>{{ player.statistics.goals_scored }}</td>
+                                                        <td>{{ player.statistics.red_cards }}</td>
+                                                        <td>{{ player.statistics.shots_on_target }}</td>
+                                                        <td>{{ player.statistics.yellow_cards }}</td>
+                                                        <td>{{ player.statistics.yellow_red_cards }}</td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.js"
+        integrity="sha512-CX7sDOp7UTAq+i1FYIlf9Uo27x4os+kGeoT7rgwvY+4dmjqV0IuE/Bl5hVsjnQPQiTOhAX1O2r2j5bjsFBvv/A=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+
+    <script>
+
+        filter_dict = {}
+
+        filter_dict['filter_qty'] = $('#quantityFilter').val()
+
+        filter_dict['result_filter'] = $('#win_filter').val()
+
+        $('#win_filter').on('change', function () {
+            var value = $(this).val();
+
+            filter_dict['result_filter'] = value
+
+            $.ajax({
+                type: "GET",
+                url: 'fetch_data/',
+                data: {
+                    filter_dict: JSON.stringify(filter_dict)
+                },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    html = ''
+                    $.each(data.data, function (index, event) {
+                        html += `
+                    <tr class="table-hover box-shadow"> 
+                      <td class="text-dark">${event.venue}</td>
+                      <td class="text-dark">${event.competition_name}</td>
+                      <td class="text-dark">${event.start_date}</td>
+                      <td class="text-dark">${event.home_name}</td>
+                      <td class="text-dark">${event.home_country}</td>
+                      <td class="text-dark">  VS </td>
+
+                      <td class="text-dark">${event.away_name}</td>
+                      <td class="text-dark">${event.away_country}</td>
+                      <td class="text-dark result_type">(${event.result_type} : ${event.result} % )</td>
+                    </tr>
+                    `
+                    });
+
+                    if (html.length === 0) {
+                        $('.message').html(
+                            `<div class=" mt-3 alert alert-warning">You don't have any Data for the selected Team</div>`
+                        )
+                        $('.all_result_table').hide()
+                        $('.all_table').html(' ')
+                        $('.title').text('Filter result based upon   ' + value)
+                    } else {
+                        $('.message').html('')
+                        $('.all_table').html(html)
+                        $('.all_result_table').hide()
+                        $('.title').text('Filter result based upon   ' + value)
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+
+        $('#quantityFilter').on('change', function () {
+
+            filter_dict['filter_qty'] = $(this).val();
+
+            $.ajax({
+
+                type: "GET",
+                url: 'fetch_qty/',
+                contentType: "application/json; charset=utf-8",
+                data: {
+
+                    filter_dict: JSON.stringify(filter_dict)
+
+                },
+
+                success: function (data) {
+
+                    html = ''
+
+                    $.each(data.data, function (index, event) {
+
+                        html += `
+                    <tr class="table-hover box-shadow"> 
+                      <td class="text-dark">${event.venue}</td>
+                      <td class="text-dark">${event.competition_name}</td>
+                      <td class="text-dark">${event.start_date}</td>
+                      <td class="text-dark">${event.home_name}</td>
+                      <td class="text-dark">${event.home_country}</td>
+                      <td class="text-dark">  VS </td>
+                      <td class="text-dark">${event.away_name}</td>
+                      <td class="text-dark">${event.away_country}</td>
+                      <td class="text-dark result_type">(${event.result_type} : ${event.result} % )</td>
+                    </tr>
+                    `
+                    });
+
+                    if (html.length === 0) {
+                        $('.message').html(
+                            `<div class=" mt-3 alert alert-warning">You don't have any Data for the selected Team</div>`
+                        )
+                        $('.all_result_table').hide()
+                        $('.all_table').html(' ')
+                        $('.title').text('Filter result based upon   ')
+                    } else {
+                        $('.message').html('')
+                        $('.all_table').html(html)
+                        $('.all_result_table').hide()
+                        $('.title').text('Filter result based upon   ')
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            });
+
+        });
+
+        $('#datepicker').on('change', function () {
+
+            var value_date = $(this).val();
+
+            filter_dict['filter_date'] = value_date
+
+            $.ajax({
+
+                type: "GET",
+                url: 'fetch_date/',
+                contentType: "application/json; charset=utf-8",
+                data: {
+
+                    filter_dict: JSON.stringify(filter_dict)
+
+                },
+
+                success: function (data) {
+
+                    html = ''
+
+                    $.each(data.data, function (index, event) {
+
+                        html += `
+                    <tr class="table-hover box-shadow"> 
+                      <td class="text-dark">${event.venue}</td>
+                      <td class="text-dark">${event.competition_name}</td>
+                      <td class="text-dark">${event.start_date}</td>
+                      <td class="text-dark">${event.home_name}</td>
+                      <td class="text-dark">${event.home_country}</td>
+                      <td class="text-dark">  VS </td>
+
+                      <td class="text-dark">${event.away_name}</td>
+                      <td class="text-dark">${event.away_country}</td>
+                      <td class="text-dark result_type">(${event.result_type} : ${event.result} % )</td>
+                    </tr>
+                    `
+                    });
+
+                    if (html.length === 0) {
+
+                        $('.message').html(
+                            `<div class=" mt-3 alert alert-warning">You don't have any Data for the selected Team</div>`
+                        )
+                        $('.all_result_table').hide()
+                        $('.all_table').html(' ')
+                        $('.title').text('Filter result based upon   ' + value)
+
+                    } else {
+                        $('.message').html('')
+                        $('.all_table').html(html)
+                        $('.all_result_table').hide()
+                        $('.title').text('Filter result based upon   ' + value)
+
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+    <script>
+        var ctx = document
+            .getElementById('match-stats-graph')
+            .getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'Possession',
+                    'Shots on Target',
+                    'Shots off Target',
+                    'Shots blocked',
+                    'Total Shots',
+                    'Fouls',
+                    'Free Kicks',
+                    'Goal Kicks',
+                    'Injuries',
+                    'Offsides',
+                    'Red Cards',
+                    'Throw-ins'
+                ],
+                datasets: [
+                    {
+                        label: 'Home Team',
+                        data: [
+                            {{data.home_statistics.ball_possession}},
+                            {{data.home_statistics.shots_on_target}},
+                            {{data.home_statistics.shots_off_target}},
+                            {{data.home_statistics.shots_blocked}},
+                            {{data.home_statistics.shots_total}},
+                            {{data.home_statistics.fouls}},
+                            {{data.home_statistics.free_kicks}},
+                            {{data.home_statistics.goal_kicks}},
+                            {{data.home_statistics.injuries}},
+                            {{data.home_statistics.offsides}},
+                            {{data.home_statistics.red_cards}},
+                            {{data.home_statistics.throw_ins}}
+                        ],
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Away Team',
+                        data: [
+                            {{data.away_statistics.ball_possession}},
+                            {{data.away_statistics.shots_on_target}},
+                            {{data.away_statistics.shots_off_target}},
+                            {{data.away_statistics.shots_blocked}},
+                            {{data.away_statistics.shots_total}},
+                            {{data.away_statistics.fouls}},
+                            {{data.away_statistics.free_kicks}},
+                            {{data.away_statistics.goal_kicks}},
+                            {{data.away_statistics.injuries}},
+                            {{data.away_statistics.offsides}},
+                            {{data.away_statistics.red_cards}},
+                            {{data.away_statistics.throw_ins}}
+                        ],
+                        backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                        borderColor: 'rgba(255, 206, 86, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}
