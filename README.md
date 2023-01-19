@@ -1,4 +1,4 @@
-# SportsTrader_API# My Django Project
+# SportsTrader_API Project 
 
 This is a sample Django project that demonstrates how to set up and run a SportsTrader web application using the Django framework.
 
@@ -20,7 +20,7 @@ https://github.com/rjpatil885/SportsTrader.git
 
 2. Navigate to the project directory:
 
-cd SportsTrader/sportstrader
+cd SportsTrader_API/sportstrader_api
 
 3. Apply the migrations:
 
