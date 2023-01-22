@@ -8,7 +8,7 @@ def home(request):
 
   try:
     url = 'https://api.sportradar.us/soccer/trial/v4/en/seasons/sr:season:77453/schedules.json'
-    params = {'api_key': '77ynyjersbzwvrjnyyye37wf'}
+    params = {'api_key': 'reach_out_to_me_for_api_key'}
     response = requests.get(url, params=params)
     data = response.json()
  
@@ -52,7 +52,7 @@ def home(request):
       })
     
     url1 = f'https://api.sportradar.us/soccer/trial/v4/en/competitions/sr:competition:202/seasons.json'
-    params1 = {'api_key': '77ynyjersbzwvrjnyyye37wf'}
+    params1 = {'api_key': 'reach_out_to_me_for_api_key'}
     response1 = requests.get(url1, params=params1)
     cmp_id1 = response1.json()
     cmp_id = cmp_id1['seasons']
@@ -64,7 +64,7 @@ def home(request):
 def match_info(request, event_id):
   try:
       match_info_url = f'https://api.sportradar.us/soccer/trial/v4/en/sport_events/{event_id}/timeline.json'
-      params = {'api_key': '77ynyjersbzwvrjnyyye37wf'}
+      params = {'api_key': 'reach_out_to_me_for_api_key'}
       response = requests.get(match_info_url, params=params)
       data = response.json()
       
@@ -104,7 +104,7 @@ def season_filter(request):
     quantity_filter = load_data.get("quantity_filter", None)
     print(season_filter)
     season_url  = f'https://api.sportradar.us/soccer/trial/v4/en/seasons/{season_filter}/schedules.json'
-    params = {'api_key': '77ynyjersbzwvrjnyyye37wf'}
+    params = {'api_key': 'reach_out_to_me_for_api_key'}
 
     response = requests.get(season_url, params=params)
     data = response.json()
@@ -166,7 +166,7 @@ def quantityFilter(request):
     quantity_filter = load_data.get("quantity_filter", None)
 
     qty_url = f'https://api.sportradar.us/soccer/trial/v4/en/seasons/{season_filter}/schedules.json'
-    params = {'api_key': '77ynyjersbzwvrjnyyye37wf'}
+    params = {'api_key': 'reach_out_to_me_for_api_key'}
     response = requests.get(qty_url, params=params)
     data = response.json()
 
@@ -232,7 +232,7 @@ def dateFilter(request):
     date_filter = load_data.get("date_filter", None)
 
     url_filter = f'https://api.sportradar.us/soccer/trial/v4/en/seasons/{season_filter}/schedules.json'
-    params = {'api_key': '77ynyjersbzwvrjnyyye37wf'}
+    params = {'api_key': 'reach_out_to_me_for_api_key'}
     response = requests.get(url_filter, params=params)
     data = response.json()
 
